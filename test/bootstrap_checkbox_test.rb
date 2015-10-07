@@ -17,6 +17,11 @@ class BootstrapCheckboxTest < ActionView::TestCase
     assert_equal expected, @builder.check_box(:terms, label: 'I agree to the terms', plugin: 'awesome-bootstrap-checkbox')
   end
 
+  test "check_box is wrapped correctly for plugin awesome-bootstrap-checkbox with an additional class in the wrapping div" do
+    expected = %{<div class="checkbox checkbox-success"><input name="user[terms]" type="hidden" value="0" /><input id="user_terms" name="user[terms]" type="checkbox" value="1" /><label for="user_terms">I agree to the terms</label></div>}
+    assert_equal expected, @builder.check_box(:terms, label: 'I agree to the terms', plugin: 'awesome-bootstrap-checkbox', wrapper_class: 'checkbox-success')
+  end
+
   test "disabled check_box has proper wrapper classes" do
     expected = %{<div class="checkbox disabled"><label for="user_terms"><input disabled="disabled" name="user[terms]" type="hidden" value="0" /><input disabled="disabled" id="user_terms" name="user[terms]" type="checkbox" value="1" /> I agree to the terms</label></div>}
     assert_equal expected, @builder.check_box(:terms, label: 'I agree to the terms', disabled: true)

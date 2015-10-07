@@ -100,7 +100,7 @@ module BootstrapForm
 
     def check_box_with_bootstrap(name, options = {}, checked_value = "1", unchecked_value = "0", &block)
       options = options.symbolize_keys!
-      check_box_options = options.except(:label, :label_class, :help, :inline, :plugin)
+      check_box_options = options.except(:label, :label_class, :help, :inline, :plugin, :wrapper_class)
 
       html = check_box_without_bootstrap(name, check_box_options, checked_value, unchecked_value)
       label_content = block_given? ? capture(&block) : options[:label]
@@ -120,12 +120,14 @@ module BootstrapForm
         label_class = " #{label_class}" if label_class
         label(label_name, html.concat(' ').concat(html_label), class: "checkbox-inline#{disabled_class}#{label_class}")
       else
+        div_classes = "checkbox#{disabled_class}"
+        div_classes.concat(' ').concat(options[:wrapper_class]) if options[:wrapper_class]
         if options[:plugin] == 'awesome-bootstrap-checkbox'
-          content_tag(:div, class: "checkbox#{disabled_class}") do
+          content_tag(:div, class: div_classes) do
             html.concat(label(label_name, html_label, class: label_class))
           end
         else
-          content_tag(:div, class: "checkbox#{disabled_class}") do
+          content_tag(:div, class: div_classes) do
             label(label_name, html.concat(' ').concat(html_label), class: label_class)
           end
         end
