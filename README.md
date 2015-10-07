@@ -1,6 +1,10 @@
 [![Build Status](https://travis-ci.org/bootstrap-ruby/rails-bootstrap-forms.png)](https://travis-ci.org/bootstrap-ruby/rails-bootstrap-forms)
 [![Gem Version](https://badge.fury.io/rb/bootstrap_form.svg)](http://badge.fury.io/rb/bootstrap_form)
 
+# Fork Reason
+
+Usage of awesome-bootstrap-checkbox
+
 # Rails Bootstrap Forms
 
 **Rails Bootstrap Forms** is a rails form builder that makes it super easy to integrate
