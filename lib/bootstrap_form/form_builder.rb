@@ -100,11 +100,11 @@ module BootstrapForm
 
     def check_box_with_bootstrap(name, options = {}, checked_value = "1", unchecked_value = "0", &block)
       options = options.symbolize_keys!
-      check_box_options = options.except(:label, :label_class, :help, :inline)
+      check_box_options = options.except(:label, :label_class, :help, :inline, :plugin)
 
       html = check_box_without_bootstrap(name, check_box_options, checked_value, unchecked_value)
       label_content = block_given? ? capture(&block) : options[:label]
-      html.concat(" ").concat(label_content || (object && object.class.human_attribute_name(name)) || name.to_s.humanize)
+      html_label = (label_content || (object && object.class.human_attribute_name(name)) || name.to_s.humanize)
 
       label_name = name
       label_name = "#{name}_#{checked_value}" if options[:multiple]
@@ -112,12 +112,22 @@ module BootstrapForm
       disabled_class = " disabled" if options[:disabled]
       label_class    = options[:label_class]
 
+      #puts options.inspect
+      #puts "HTML: #{html}"
+      #puts "LABEL NAME: #{label_name}"
+
       if options[:inline]
         label_class = " #{label_class}" if label_class
-        label(label_name, html, class: "checkbox-inline#{disabled_class}#{label_class}")
+        label(label_name, html.concat(' ').concat(html_label), class: "checkbox-inline#{disabled_class}#{label_class}")
       else
-        content_tag(:div, class: "checkbox#{disabled_class}") do
-          label(label_name, html, class: label_class)
+        if options[:plugin] == 'awesome-bootstrap-checkbox'
+          content_tag(:div, class: "checkbox#{disabled_class}") do
+            html.concat(label(label_name, html_label, class: label_class))
+          end
+        else
+          content_tag(:div, class: "checkbox#{disabled_class}") do
+            label(label_name, html.concat(' ').concat(html_label), class: label_class)
+          end
         end
       end
     end
@@ -268,7 +278,7 @@ module BootstrapForm
 
       target = (obj.class == Class) ? obj : obj.class
 
-      target_validators = if target.respond_to? :validators_on 
+      target_validators = if target.respond_to? :validators_on
                             target.validators_on(attribute).map(&:class)
                           else
                             []

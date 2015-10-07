@@ -147,7 +147,7 @@ To add custom classes to the field's label:
 #### Required Fields
 
 A label that is associated with a required field is automatically annotated with
-a `required` CSS class. You are free to add any appropriate CSS to style 
+a `required` CSS class. You are free to add any appropriate CSS to style
 required fields as desired.  One example would be to automatically add an
 asterisk to the end of the label:
 
@@ -283,6 +283,14 @@ To display checkboxes and radios inline, pass the `inline: true` option:
   <%= f.radio_button :skill_level, 0, label: "Novice", inline: true %>
   <%= f.radio_button :skill_level, 1, label: "Intermediate", inline: true %>
   <%= f.radio_button :skill_level, 2, label: "Advanced", inline: true %>
+<% end %>
+```
+
+If you are using a the plugin awesome-bootstrap-checkbox, pass the `plugin: awesome-bootstrap-checkbox` option:
+
+```erb
+<%= f.form_group :terms do %>
+  <%= f.check_box :terms, label: "I agree to the Terms of Service", plugin: 'awesome-bootstrap-checkbox' %>
 <% end %>
 ```
 
